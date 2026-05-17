@@ -1,0 +1,152 @@
+[
+    {
+        "speaker": "Tracy",
+        "text": "Hello and welcome to 6 Minute English from TTB Learning English. I'm Tracy.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "And I'm Brian.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "Today we're talking about something quite modern... vibe coding.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "Ah yes... the internet's favourite new phrase.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "Honestly, Brian, when I first heard it... I thought it sounded musical.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "Same here. I imagined someone coding while listening to jazz.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "Well... some people probably do that too.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "True. But vibe coding is actually about using AI tools to help people write software.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "And sometimes people barely understand the code they're creating.",
+        "emotion": "disapointed"
+    },
+    {
+        "speaker": "Brian",
+        "text": "Which is... slightly terrifying.",
+        "emotion": "sad"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "Or exciting. Depends who you ask.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "Good point.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "So Brian... quick question before we start.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "Go on then.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "Which programming language was created first?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "Oh no... a tech quiz.",
+        "emotion": "disapointed"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "Yes. Was it... A: Python, B: Java, or C: Fortran?",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "Hmm...",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "Take your time.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "Well... I know Python feels old now.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "It does.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "But Java also sounds ancient.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "You sound very scientific.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "Thank you. I try.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "Uh... I'll say C: Fortran.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "Interesting.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "Which usually means I'm wrong.",
+        "emotion": "sad"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "We'll find out later in the programme.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "Right then... vibe coding.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "So, Brian, have you ever used AI to write code?",
+        "emotion": "curious"
+    }
+]

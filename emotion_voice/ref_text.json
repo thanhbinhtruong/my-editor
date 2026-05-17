@@ -1,0 +1,46 @@
+[
+    {
+        "text": "Take your time. There’s no need to rush. Sometimes the best solution comes when you slow down, breathe, and look at the situation more carefully.",
+        "emotion": "calm"
+    },
+    {
+        "text": "Hmmm… I wonder how this actually works behind the scenes. There must be something interesting going on here. What if we tried a different approach, would it behave the same way or completely change the result?",
+        "emotion": "curious"
+    },
+    {
+        "text": "I really expected more from this result. I put in so much effort, but it still didn’t work out. Honestly, it feels disappointing and a bit frustrating.",
+        "emotion": "disappointed"
+    },
+    {
+        "text": "Wow, this is incredible! I’ve never seen anything develop this fast before. Every new update just makes everything more powerful, more exciting, and honestly, I can’t wait to see what comes next!",
+        "emotion": "excited"
+    },
+    {
+        "text": "I’ve spent hours trying to fix this problem, and nothing seems to work. Every time I solve one issue, another one immediately appears. This is getting really frustrating.",
+        "emotion": "frustrated"
+    },
+    {
+        "text": "This is amazing! I can’t believe how fast technology is improving. Every day there is something new to explore, and it just makes learning so much more exciting and fun!",
+        "emotion": "happy"
+    },
+    {
+        "text": "Wow… that was actually incredible. I didn’t expect the result to be this good. The level of detail, the quality, everything about it is genuinely impressive.",
+        "emotion": "impressed"
+    },
+    {
+        "text": "I’m not completely sure if this is going to work… but I guess we have to try anyway. Honestly, I’m a little worried about what might happen next.",
+        "emotion": "nervous"
+    },
+    {
+        "text": "Today we are going to talk about how artificial intelligence is changing the way we learn and work. It is becoming more common in everyday life, from simple chatbots to advanced creative tools.",
+        "emotion": "neutral"
+    },
+    {
+        "text": "I thought things would turn out differently. But sometimes, no matter how hard you try, life doesn’t go the way you expect. It’s hard to accept, but you have to move on.",
+        "emotion": "sad"
+    },
+    {
+        "text": "I still remember the way things used to be. Sometimes I wish I could go back and change everything, but deep down I know that some moments are gone forever.",
+        "emotion": "sorrowful"
+    }
+]
