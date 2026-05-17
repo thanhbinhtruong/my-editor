@@ -61,11 +61,11 @@ def pick_voice_file(voice_type, emotion):
     # Thử đúng emotion trước, fallback sang neutral
     for emo in [emotion, "neutral"]:
         for i in [1, 2]:
-            p = VOICE_DIR / f"{voice_type}_{emo}_{i}.mp3"
+            p = VOICE_DIR / f"{voice_type}_{emo}_{i}.wav"
             if p.exists():
                 return p
     # Lấy bất kỳ file nào khớp voice_type
-    files = list(VOICE_DIR.glob(f"{voice_type}_*.mp3"))
+    files = list(VOICE_DIR.glob(f"{voice_type}_*.wav"))
     if files:
         return random.choice(files)
     raise FileNotFoundError(f"No voice file found for {voice_type}")
