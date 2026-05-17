@@ -1,0 +1,1292 @@
+[
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Hello and welcome to English Podcast from TTB Learning English. I'm Tracy.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[happy] And I'm Brian. Welcome back, everyone.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[excited] Today we're talking about something very modern... vibe coding.",
+        "emotion": "excited"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[curious] Ah yes... the internet's newest obsession.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Some people think vibe coding is brilliant.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[disappointed] And some people think it's the end of proper programming.",
+        "emotion": "disappointed"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] So today we're asking... is vibe coding actually useful?",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[curious] Or is it just another trendy buzzword?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] We'll also teach you some useful vocabulary related to technology and creativity.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[happy] And of course... we'll have a quiz question for you.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] Right then, Brian... do you actually know what vibe coding means?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[nervous] Um... kind of? I mean... I think so.",
+        "emotion": "nervous"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] That's not very confident.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Well... honestly... nobody seems fully confident about it.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[excited] Fair point.",
+        "emotion": "excited"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] The phrase usually describes coding in a relaxed, creative, almost playful way.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] Like coding based on feelings and experimentation instead of strict planning?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[impressed] Exactly. You sort of explore ideas freely.",
+        "emotion": "impressed"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Very artistic.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Or very chaotic.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[laughing] True.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Anyway... here's today's quiz question.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] Which programming language was originally created for web browsers?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Is it... A. Python.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] B. JavaScript.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Or C. C plus plus.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] We'll reveal the answer later in the programme.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Right. So Tracy... have you ever tried vibe coding?",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] Honestly... maybe without realising it.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[curious] Go on.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Sometimes I start a project with absolutely no plan.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] I just open my laptop and think... well... let's see what happens.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[impressed] That's brave.",
+        "emotion": "impressed"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Or irresponsible.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[happy] Maybe both.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] You know... creative people often work like that.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[curious] But programmers usually like structure.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Yes. Traditionally they plan everything carefully.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] They design systems, write documentation, test code... all very organised.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[excited] Whereas vibe coding sounds more like... improvisation.",
+        "emotion": "excited"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[happy] Like jazz music.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[impressed] Oh that's actually a good comparison.",
+        "emotion": "impressed"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[happy] Thank you.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Some developers now use AI tools while vibe coding.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[curious] Yes. That's become really common.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] They type a rough idea into an AI assistant.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Then the AI generates code automatically.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] Which sounds magical.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[frustrated] Until the code completely breaks.",
+        "emotion": "frustrated"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Ah yes... reality arrives.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Honestly... AI coding tools are impressive.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] But sometimes they produce strange results.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] Have you experienced that?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[frustrated] Oh absolutely.",
+        "emotion": "frustrated"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] I once asked an AI to help build a small website.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] At first everything looked amazing.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[sad] Then suddenly... nothing worked.",
+        "emotion": "sad"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] What happened?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[frustrated] Honestly... I still don't know.",
+        "emotion": "frustrated"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] That's the most programmer answer ever.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] The AI created code that looked correct.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] But hidden inside were tiny mistakes.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Which can take hours to find.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[disappointed] Exactly.",
+        "emotion": "disappointed"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] So vibe coding can feel fast at first.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] But fixing problems later may take even longer.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[impressed] That's actually an important point.",
+        "emotion": "impressed"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] Still... many young developers love the idea.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Especially beginners.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] Why do you think that is?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Because traditional coding can feel intimidating.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] There are so many rules.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Syntax. Frameworks. Debugging. Security.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[nervous] Honestly... it can feel overwhelming.",
+        "emotion": "nervous"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Whereas vibe coding feels more relaxed.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[happy] Yes. More playful.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] Like learning through experimentation.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[impressed] Exactly.",
+        "emotion": "impressed"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Some experts actually support this approach.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[curious] Really?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] A software designer called Martin Hayes said...",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[impressed] Creativity appears when people stop fearing mistakes.",
+        "emotion": "impressed"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[curious] Hmm.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] That's quite interesting.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] He believes strict systems sometimes reduce creativity.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] I can understand that.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] If people are too afraid to fail... they stop experimenting.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Exactly.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[curious] But there must be limits.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] What do you mean?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Well... imagine building software for a hospital.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[nervous] You probably don't want doctors saying... um... let's just vibe code this surgery system.",
+        "emotion": "nervous"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Oh dear.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] That sounds terrifying.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Exactly.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] So perhaps vibe coding works better for creative projects.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Games. Art projects. Small apps.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Experimental websites.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[impressed] Yes. Areas where flexibility matters.",
+        "emotion": "impressed"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] Do you think schools should teach vibe coding?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[nervous] Ooh... controversial question.",
+        "emotion": "nervous"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] We like controversy here.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] I think students should first learn proper fundamentals.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] They need to understand logic and problem solving.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Then later they can experiment more freely.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[impressed] That sounds reasonable.",
+        "emotion": "impressed"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] What about you?",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] I actually think experimentation should happen early.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[curious] Really?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[excited] Yes. Because excitement keeps people motivated.",
+        "emotion": "excited"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] If learning becomes too technical too quickly... people give up.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[disappointed] That's true.",
+        "emotion": "disappointed"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[sad] I remember learning programming at university.",
+        "emotion": "sad"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Honestly... I was completely lost.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] What was hardest?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[frustrated] Error messages.",
+        "emotion": "frustrated"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[frustrated] They made absolutely no sense.",
+        "emotion": "frustrated"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Ah yes.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] The famous mysterious error message.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] One error told me there was an unexpected token.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[frustrated] I didn't even know what a token was.",
+        "emotion": "frustrated"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Poor Brian.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[happy] Thank you for your sympathy.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Another expert we spoke to was digital educator Sarah Collins.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[curious] And what did she say?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] She said...",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[impressed] The future programmer may behave more like a creative director than a traditional engineer.",
+        "emotion": "impressed"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[curious] Interesting.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] So instead of writing every line manually...",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] People guide AI tools creatively.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[impressed] Exactly.",
+        "emotion": "impressed"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[nervous] Honestly... that's both exciting and slightly scary.",
+        "emotion": "nervous"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] Because jobs may change?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Yes.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Some tasks may disappear.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] But new creative roles may appear too.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Technology always changes the workplace.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] True.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] You know... I recently watched a teenager build a game using AI tools.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[impressed] Really?",
+        "emotion": "impressed"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Yes. And the teenager had almost no coding experience.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[impressed] That's incredible.",
+        "emotion": "impressed"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] The game wasn't perfect.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] But honestly... it was fun.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[curious] That's the key word maybe.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[excited] Fun.",
+        "emotion": "excited"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Yes.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] People learn faster when they're enjoying themselves.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Absolutely.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[curious] But there is another problem with vibe coding.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] Go on.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Sometimes people rely too heavily on AI.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Meaning they stop thinking independently?",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[disappointed] Exactly.",
+        "emotion": "disappointed"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] They copy solutions without understanding them.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[sad] Which can become dangerous.",
+        "emotion": "sad"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Especially in professional environments.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] If something breaks... you need to know why.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[frustrated] Otherwise you're just staring at the screen hopelessly.",
+        "emotion": "frustrated"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Which many of us already do.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[happy] Very true.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] There was also a famous fake quote online recently.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[curious] Oh yes?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Somebody wrote...",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Real programmers don't debug. They simply vibe harder.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[happy] That's brilliant.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[happy] Completely ridiculous... but brilliant.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[excited] The internet loved it.",
+        "emotion": "excited"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Honestly... online tech culture changes very quickly.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] New words appear every month.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[curious] That's true.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Years ago people talked about coding bootcamps.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Then remote work.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Then AI assistants.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] And now vibe coding.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] I wonder what comes next.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[curious] Hmm... emotional debugging perhaps.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Where your computer comforts you emotionally.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[happy] Exactly.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[calm] Error detected. But you are doing your best.",
+        "emotion": "calm"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] I would actually appreciate that.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Same here honestly.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Let's talk about productivity.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[curious] Ah yes.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Some companies worry vibe coding reduces quality.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Because projects become messy.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Exactly.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Documentation may disappear.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Teams may struggle to understand the code later.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] Have you ever inherited messy code?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[sorrowful] Oh yes.",
+        "emotion": "sorrowful"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] It felt like exploring an ancient ruin.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Dramatic.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Honestly though... some files were impossible to understand.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] No comments?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[frustrated] None.",
+        "emotion": "frustrated"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[frustrated] Just confusion everywhere.",
+        "emotion": "frustrated"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[sad] That sounds painful.",
+        "emotion": "sad"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] It was.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] So perhaps balance is important.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[impressed] Definitely.",
+        "emotion": "impressed"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] A little creativity.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] A little structure.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[happy] Like cooking.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] Cooking?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Yes.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] You can improvise slightly.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] But if you completely ignore the recipe... disaster may happen.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Especially with baking.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[sad] I once made a terrible cake.",
+        "emotion": "sad"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] What happened?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[disappointed] I tried to vibe bake.",
+        "emotion": "disappointed"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Oh no.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Honestly... it became a brick.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] A delicious brick?",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[sad] Not even slightly.",
+        "emotion": "sad"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Well... at least you survived.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[happy] Barely.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Alright then.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[excited] It's time for our vocabulary recap.",
+        "emotion": "excited"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[happy] Let's do it.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] First we had improvisation.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] That means creating something spontaneously without detailed planning.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Next was intimidating.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] If something is intimidating... it makes you feel nervous or less confident.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] We also used the word experimentation.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] That means trying new ideas to discover what works.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Another useful phrase was rely heavily on.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] It means to depend too much on something.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] Then we had documentation.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] In technology... documentation means written explanations about software or systems.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] And finally... overwhelming.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] If something is overwhelming... it feels too difficult or emotionally intense.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Nicely explained.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[happy] Thank you very much.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] Now Brian... can you remember today's quiz question?",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Of course.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] We asked which programming language was originally created for web browsers.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[curious] And the options were Python, JavaScript, or C plus plus.",
+        "emotion": "curious"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[excited] And the correct answer is... JavaScript.",
+        "emotion": "excited"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Well done if you got it right.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] JavaScript was designed in the nineteen nineties for interactive websites.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[impressed] And now it powers huge parts of the internet.",
+        "emotion": "impressed"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Including many AI tools people use for vibe coding today.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Everything connects somehow.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] So Tracy... final thoughts.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[calm] I think vibe coding can be inspiring and creative.",
+        "emotion": "calm"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] But people still need real understanding.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[calm] I agree.",
+        "emotion": "calm"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[neutral] Technology should support human creativity... not replace human thinking.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Very philosophical.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[happy] Thank you.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] That's all for today's episode.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[happy] We hope you enjoyed listening.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[neutral] And maybe learned a few new words.",
+        "emotion": "neutral"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[happy] Join us again soon for more English learning conversations.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Tracy",
+        "text": "[happy] Until next time... goodbye.",
+        "emotion": "happy"
+    },
+    {
+        "speaker": "Brian",
+        "text": "[happy] Bye everyone.",
+        "emotion": "happy"
+    }
+]

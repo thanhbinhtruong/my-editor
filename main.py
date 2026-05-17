@@ -30,7 +30,7 @@ EMOTION_FALLBACK = {
 
 # Folder paths
 VOICE_DIR = Path("emotion_voice")
-DIALOG_FILE = "dialog.json"
+DIALOG_FILE = "dialogue.json"
 REF_TEXT_FILE = "emotion_voice/ref_text.json"
 OUTPUT_DIR = Path("outputs")
 
