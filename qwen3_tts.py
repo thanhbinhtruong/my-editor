@@ -5,6 +5,8 @@ import numpy as np
 import json
 import os
 import random
+from pathlib import Path
+from datetime import datetime
 
 VOICE_DIR = "emotion_voice"
 
@@ -70,6 +72,11 @@ for file in os.listdir(VOICE_DIR):
 with open("segments.json", "r", encoding="utf-8") as f:
     segments = json.load(f)
 
+
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+output_dir = Path("output") / f"run_{timestamp}"
+output_dir.mkdir(parents=True, exist_ok=True)
+
 all_wavs = []
 for i, seg in enumerate(segments):
 
@@ -99,8 +106,10 @@ for i, seg in enumerate(segments):
     if isinstance(wav, list):
         wav = wav[0]
 
+    chunk_path = output_dir / f"chunk_{i:03d}.wav"
+
     # save chunk
-    sf.write(f"chunk_{i}.wav", wav, sr)
+    sf.write(chunk_path, wav, sr)
 
     all_wavs.append(wav)
 
@@ -110,11 +119,12 @@ for i, seg in enumerate(segments):
 
 
 final_audio = np.concatenate(all_wavs)
+full_audio_path = output_dir / "full_audio.wav"
 
 sf.write(
-    "full_audio.wav",
+    full_audio_path,
     final_audio,
     sr
 )
 
-print("Done.")
+print(f"Done. Saved to: {output_dir}")
