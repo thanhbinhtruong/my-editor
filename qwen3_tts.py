@@ -4,6 +4,7 @@ from qwen_tts import Qwen3TTSModel
 import numpy as np
 import json
 import os
+import random
 
 VOICE_DIR = "emotion_voice"
 
