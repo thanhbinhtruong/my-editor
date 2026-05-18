@@ -2,6 +2,7 @@ import torch
 import soundfile as sf
 from qwen_tts import Qwen3TTSModel
 import numpy as np
+import json
 
 VOICE_DIR = "emotion_voice"
 
@@ -104,8 +105,8 @@ for i, seg in enumerate(segments):
     # add pause
     pause = np.zeros(int(sr * 0.3))
     all_wavs.append(pause)
- 
-    
+
+
 final_audio = np.concatenate(all_wavs)
 
 sf.write(
