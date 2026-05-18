@@ -77,6 +77,22 @@ timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 output_dir = Path("output") / f"run_{timestamp}"
 output_dir.mkdir(parents=True, exist_ok=True)
 
+
+srt_lines = []
+current_time = 0.0
+
+def format_srt_time(seconds: float):
+
+    ms = int((seconds % 1) * 1000)
+    total_seconds = int(seconds)
+
+    s = total_seconds % 60
+    m = (total_seconds // 60) % 60
+    h = total_seconds // 3600
+
+    return f"{h:02d}:{m:02d}:{s:02d},{ms:03d}"
+
+
 all_wavs = []
 for i, seg in enumerate(segments):
 
@@ -111,6 +127,22 @@ for i, seg in enumerate(segments):
     # save chunk
     sf.write(chunk_path, wav, sr)
 
+
+    duration = len(wav) / sr
+
+    start_time = current_time
+    end_time = current_time + duration
+
+    srt_lines.append(
+        f"{i + 1}\n"
+        f"{format_srt_time(start_time)} --> {format_srt_time(end_time)}\n"
+        f"{text}\n"
+    )
+
+    # update current time
+    current_time = end_time + 0.3
+
+    # append audio
     all_wavs.append(wav)
 
     # add pause
@@ -126,5 +158,13 @@ sf.write(
     final_audio,
     sr
 )
+
+
+srt_path = output_dir / "subtitles.srt"
+
+with open(srt_path, "w", encoding="utf-8") as f:
+    f.write("\n".join(srt_lines))
+
+print(f"SRT saved: {srt_path}")
 
 print(f"Done. Saved to: {output_dir}")
