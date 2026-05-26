@@ -168,7 +168,7 @@ class SubtitleVideoRenderer:
                     word,
                     font=self.font,
                     fill=(255, 255, 255, 255),
-                    stroke_width=3,
+                    stroke_width=2,
                     stroke_fill=(0, 0, 0, 255),
                 )
 
@@ -218,7 +218,7 @@ class SubtitleVideoRenderer:
                         w["word"],
                         font=self.font,
                         fill=(255, 255, 255, 255),
-                        stroke_width=3,
+                        stroke_width=2,
                         stroke_fill=(0, 0, 0, 255),
                     )
 
