@@ -1,220 +1,316 @@
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
-import cv2
 import subprocess
 import json
+import re
 
 
 class SubtitleVideoRenderer:
 
     def __init__(
         self,
-        timestamp_json: str,
-        input_video: str,
-        font_path: str = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-        video_width: int = 1920,
-        video_height: int = 1080,
-        fps: int = 30,
-        font_size: int = 52,
-        pause_threshold: float = 0.45,
-        final_output: str = "subtitle_final.mp4",
+        timestamp_json,
+        input_video,
+        srt_file,
+        font_path="/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+        w=1920,
+        h=1080,
+        fps=30,
+        font_size=52,
+        output="out.mp4",
     ):
         self.timestamp_json = timestamp_json
         self.input_video = input_video
-        self.font_path = font_path
-        self.video_width = video_width
-        self.video_height = video_height
+        self.srt_file = srt_file
+
+        self.W = w
+        self.H = h
         self.fps = fps
         self.font_size = font_size
-        self.pause_threshold = pause_threshold
-        self.final_output = final_output
+        self.output = output
 
-        self.words_data: list[dict] = []
-        self.sentence_blocks: list[list[dict]] = []
-        self.font: ImageFont.FreeTypeFont = None
-        self._frames: list[np.ndarray] = []
+        self.font = ImageFont.truetype(font_path, font_size)
 
-    # ----------------------------------------------------------
-    # LOAD & PREPARE
-    # ----------------------------------------------------------
+        self.words = []
+        self.blocks = []
 
-    def _load_words(self):
+        # caches
+        self.base_cache = {}   # block_id -> static image
+        self.layout_cache = {} # block_id -> layout info
+
+    # ─────────────────────────────
+    # LOAD WORDS
+    # ─────────────────────────────
+    def load_words(self):
         with open(self.timestamp_json, "r", encoding="utf-8") as f:
-            self.words_data = json.load(f)
+            self.words = json.load(f)
 
-    def _group_sentences(self):
-        self.sentence_blocks = []
-        current_block = []
+    def srt_to_sec(self, t):
+        h, m, s_ms = t.split(":")
+        s, ms = s_ms.split(",")
+        return int(h) * 3600 + int(m) * 60 + int(s) + int(ms) / 1000
 
-        for i, word in enumerate(self.words_data):
-            if i == 0:
-                current_block.append(word)
+    def load_srt(self):
+        with open(self.srt_file, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        blocks = []
+        for b in re.split(r"\n\s*\n", content.strip()):
+            lines = b.splitlines()
+            if len(lines) < 2:
                 continue
+            try:
+                start, end = lines[1].split(" --> ")
+                blocks.append((self.srt_to_sec(start), self.srt_to_sec(end)))
+            except:
+                pass
 
-            gap = word["start"] - self.words_data[i - 1]["end"]
+        return blocks
 
-            if gap > self.pause_threshold:
-                self.sentence_blocks.append(current_block)
-                current_block = []
+    # ─────────────────────────────
+    # GROUP WORDS
+    # ─────────────────────────────
+    def group_words(self):
+        srt_blocks = self.load_srt()
 
-            current_block.append(word)
+        blocks = []
+        i = 0
 
-        if current_block:
-            self.sentence_blocks.append(current_block)
+        for start, end in srt_blocks:
+            block = []
 
-    # ----------------------------------------------------------
-    # HELPERS
-    # ----------------------------------------------------------
+            while i < len(self.words):
+                w = self.words[i]
 
-    def _get_current_block_and_word(self, current_time: float) -> tuple[list | None, int]:
-        for block in self.sentence_blocks:
-            if block[0]["start"] <= current_time <= block[-1]["end"]:
-                active_index = -1
-                for idx, word in enumerate(block):
-                    if word["start"] <= current_time < word["end"]:
-                        active_index = idx
-                        break
-                return block, active_index
-        return None, -1
+                if w["start"] > end + 0.3:
+                    break
 
-    def _split_lines(self, draw: ImageDraw.Draw, words: list[dict]) -> list[list[dict]]:
-        max_width = self.video_width * 0.75
+                if w["start"] >= start - 0.3:
+                    block.append(w)
+
+                i += 1
+
+            if block:
+                blocks.append(block)
+
+        self.blocks = blocks
+        print("Blocks:", len(blocks))
+
+    # ─────────────────────────────
+    # PRE-COMPUTE LAYOUT (IMPORTANT)
+    # ─────────────────────────────
+    def build_layout(self, block):
+        spacing = 18
+        max_width = self.W * 0.75
+
         lines = []
-        current_line = []
+        current = []
 
-        for word in words:
-            test_line = current_line + [word]
-            text = " ".join(w["word"] for w in test_line)
-            bbox = draw.textbbox((0, 0), text, font=self.font)
+        # split lines
+        for w in block:
+            test = current + [w]
+            text = " ".join(x["word"] for x in test)
+
+            bbox = self.font.getbbox(text)
             width = bbox[2] - bbox[0]
 
-            if width > max_width and current_line:
-                lines.append(current_line)
-                current_line = [word]
+            if width > max_width and current:
+                lines.append(current)
+                current = [w]
             else:
-                current_line = test_line
+                current = test
 
-        if current_line:
-            lines.append(current_line)
+        if current:
+            lines.append(current)
 
-        return lines
-
-    # ----------------------------------------------------------
-    # DRAW
-    # ----------------------------------------------------------
-
-    def _draw_active_word(self, draw: ImageDraw.Draw, x: int, y: int, word: str, w: int):
-        padding_x, padding_y = 24, 16
-
-        # glow
-        draw.rounded_rectangle(
-            (x - padding_x - 6, y - padding_y - 6,
-             x + w + padding_x + 6, y + self.font_size + padding_y + 6),
-            radius=28,
-            fill=(180, 80, 255, 255),
-        )
-        # box
-        draw.rounded_rectangle(
-            (x - padding_x, y - padding_y,
-             x + w + padding_x, y + self.font_size + padding_y),
-            radius=24,
-            fill=(120, 0, 255, 255),
-        )
-
-        draw.text((x, y), word, font=self.font, fill=(255, 255, 255, 255))
-
-    def _draw_frame(self, current_time: float) -> np.ndarray:
-        # nền trong suốt
-        img = Image.new("RGBA", (self.video_width, self.video_height), (0, 0, 0, 0))
-        draw = ImageDraw.Draw(img)
-
-        current_block, active_index = self._get_current_block_and_word(current_time)
-
-        if current_block is None:
-            return cv2.cvtColor(np.array(img), cv2.COLOR_RGBA2BGRA)
-
-        lines = self._split_lines(draw, current_block)
-        line_spacing = 40
-        total_text_height = len(lines) * self.font_size + (len(lines) - 1) * line_spacing
-        start_y = self.video_height - 840 - total_text_height // 2
-        global_word_index = 0
-        spacing = 24
+        # build positions
+        layout = []
+        y = self.H - 300
 
         for line in lines:
             widths = []
-            total_width = 0
+            total = 0
 
-            for item in line:
-                bbox = draw.textbbox((0, 0), item["word"], font=self.font)
-                w = bbox[2] - bbox[0]
-                widths.append(w)
-                total_width += w + spacing
-            total_width -= spacing
+            for w in line:
+                bbox = self.font.getbbox(w["word"])
+                ww = bbox[2] - bbox[0]
+                widths.append(ww)
+                total += ww + spacing
 
-            x = (self.video_width - total_width) // 2
+            total -= spacing
+            x = (self.W - total) // 2
 
-            for idx, item in enumerate(line):
-                word = item["word"]
-                w = widths[idx]
+            layout.append((line, widths, x, y))
+            y += self.font_size + 30
 
-                if global_word_index == active_index:
-                    self._draw_active_word(draw, x, start_y, word, w)
-                else:
-                    draw.text((x, start_y), word, font=self.font, fill=(255, 255, 255, 255), stroke_width=3, stroke_fill=(0, 0, 0, 255))
-                x += w + spacing
-                global_word_index += 1
+        return layout
 
-            start_y += self.font_size + line_spacing
+    # ─────────────────────────────
+    # BUILD STATIC BASE FRAME (KEY OPTIMIZATION)
+    # ─────────────────────────────
+    def build_base_frame(self, block_id, block):
+        img = Image.new("RGBA", (self.W, self.H), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(img)
 
-        return cv2.cvtColor(np.array(img), cv2.COLOR_RGBA2BGRA)
+        layout = self.build_layout(block)
 
+        self.layout_cache[block_id] = layout
 
+        global_idx = 0
 
-    def _render_and_merge(self):
-        total_frames = int(self.words_data[-1]["end"] * self.fps)
+        for line, widths, x, y in layout:
+            for i, w in enumerate(line):
+                word = w["word"]
+                ww = widths[i]
 
-        process = subprocess.Popen([
-            "ffmpeg", "-y",
-            "-f", "rawvideo",
-            "-vcodec", "rawvideo",
-            "-s", f"{self.video_width}x{self.video_height}",
-            "-pix_fmt", "bgra",
-            "-r", str(self.fps),
-            "-i", "pipe:0",
-            "-i", self.input_video,
-            "-filter_complex", "[1:v][0:v]overlay=0:0",
-            "-c:a", "copy",
-            "-c:v", "libx264",
-            "-pix_fmt", "yuv420p",
-            "-movflags", "+faststart",
-            self.final_output,
-        ], stdin=subprocess.PIPE)
+                draw.text(
+                    (x, y),
+                    word,
+                    font=self.font,
+                    fill=(255, 255, 255, 255),
+                    stroke_width=3,
+                    stroke_fill=(0, 0, 0, 255),
+                )
 
-        for frame_idx in range(total_frames):
-            if frame_idx % 100 == 0:
-                print(f"  Rendering frame {frame_idx}/{total_frames}...")
+                x += ww + 18
+                global_idx += 1
 
-            frame = self._draw_frame(frame_idx / self.fps)
-            process.stdin.write(frame.tobytes())
+        self.base_cache[block_id] = np.array(img)
 
-        process.stdin.close()
-        process.wait()
-        print("DONE:", self.final_output)
-        
-    # ----------------------------------------------------------
-    # ENTRY POINT
-    # ----------------------------------------------------------
+    # ─────────────────────────────
+    # BUILD ALL BASE FRAMES
+    # ─────────────────────────────
+    def build_all_base(self):
+        for i, block in enumerate(self.blocks):
+            self.build_base_frame(i, block)
 
+        print("Base frames ready:", len(self.base_cache))
+
+    # ─────────────────────────────
+    # RENDER HIGHLIGHT ONLY
+    # ─────────────────────────────
+    def render(self, block_id, active_index):
+        base = self.base_cache[block_id].copy()
+        img = Image.fromarray(base)
+        draw = ImageDraw.Draw(img)
+
+        layout = self.layout_cache[block_id]
+
+        idx = 0
+
+        for line, widths, x0, y in layout:
+            x = x0
+
+            for i, w in enumerate(line):
+                ww = widths[i]
+
+                if idx == active_index:
+                    draw.rounded_rectangle(
+                        (x - 10, y - 10, x + ww + 10, y + self.font_size + 10),
+                        radius=18,
+                        fill=(120, 0, 255, 220),
+                    )
+
+                x += ww + 18
+                idx += 1
+
+        return np.array(img)
+
+    # ─────────────────────────────
+    # BUILD EVENTS
+    # ─────────────────────────────
+    def build_events(self):
+        events = []
+
+        for bid, block in enumerate(self.blocks):
+            for i, w in enumerate(block):
+                events.append((w["start"], bid, i))
+
+        events.sort(key=lambda x: x[0])
+        return events
+
+    # ─────────────────────────────
+    # RUN
+    # ─────────────────────────────
     def run(self):
-        self._load_words()
-        self._group_sentences()
-        self.font = ImageFont.truetype(self.font_path, self.font_size)
-        self._render_and_merge()
+        self.load_words()
+        self.group_words()
+        self.build_all_base()
+
+        events = self.build_events()
+
+        ffmpeg = subprocess.Popen(
+            [
+                "ffmpeg",
+                "-y",
+                "-f",
+                "rawvideo",
+                "-pix_fmt",
+                "rgb24",
+                "-s",
+                f"{self.W}x{self.H}",
+                "-r",
+                str(self.fps),
+                "-i",
+                "pipe:0",
+                "-i",
+                self.input_video,
+                "-filter_complex",
+                "[1:v][0:v]overlay=0:0",
+                "-c:v",
+                "libx264",
+                "-pix_fmt",
+                "yuv420p",
+                "-c:a",
+                "copy",
+                self.output,
+            ],
+            stdin=subprocess.PIPE,
+        )
+
+        total_frames = int(self.words[-1]["end"] * self.fps)
+
+        current = 0
+        block_id = 0
+        active_index = -1
+
+        empty = np.zeros((self.H, self.W, 3), dtype=np.uint8)
+
+        for frame in range(total_frames):
+            t = frame / self.fps
+
+            while current < len(events) and events[current][0] <= t:
+                _, block_id, active_index = events[current]
+                current += 1
+
+            if block_id is None or active_index < 0:
+                frame_img = self.base_cache.get(block_id, empty)
+            else:
+                frame_img = self.render(block_id, active_index)
+
+            assert frame_img.shape == (self.H, self.W, 3), frame_img.shape
+            assert frame_img.dtype == np.uint8
+            assert frame_img.nbytes == self.W * self.H * 3
+
+            frame_img = np.ascontiguousarray(frame_img)
+            ffmpeg.stdin.write(frame_img.tobytes())
+
+            if frame % (self.fps * 5) == 0:
+                print(frame, "/", total_frames)
+
+        ffmpeg.stdin.close()
+        ffmpeg.wait()
+
+        print("DONE:", self.output)
 
 
+# ─────────────────────────────
+# RUN
+# ─────────────────────────────
 if __name__ == "__main__":
-    renderer = SubtitleVideoRenderer(
+    r = SubtitleRendererFastV2(
         timestamp_json="word_timestamps.json",
-        input_video="source/run_20260521_160657_copy/final_video.mp4",
+        input_video="input.mp4",
+        srt_file="subtitles.srt",
     )
-    renderer.run()
+    r.run()
