@@ -175,7 +175,7 @@ class SubtitleVideoRenderer:
                 x += ww + 18
                 global_idx += 1
 
-        self.base_cache[block_id] = np.array(img)
+        self.base_cache[block_id] = np.array(img.convert("RGB"))
 
     # ─────────────────────────────
     # BUILD ALL BASE FRAMES
@@ -214,7 +214,7 @@ class SubtitleVideoRenderer:
                 x += ww + 18
                 idx += 1
 
-        return np.array(img)
+        return np.array(img.convert("RGB"))
 
     # ─────────────────────────────
     # BUILD EVENTS
@@ -230,6 +230,19 @@ class SubtitleVideoRenderer:
         return events
 
     # ─────────────────────────────
+    # GET VIDEO DURATION
+    # ─────────────────────────────
+    def get_video_duration(self):
+        result = subprocess.run(
+            [
+                "ffprobe", "-v", "error", "-show_entries", "format=duration",
+                "-of", "default=noprint_wrappers=1:nokey=1", self.input_video
+            ],
+            capture_output=True, text=True
+        )
+        return float(result.stdout.strip())
+
+    # ─────────────────────────────
     # RUN
     # ─────────────────────────────
     def run(self):
@@ -238,6 +251,15 @@ class SubtitleVideoRenderer:
         self.build_all_base()
 
         events = self.build_events()
+
+        # Get actual video duration to prevent frame mismatch
+        video_duration = self.get_video_duration()
+        word_duration = self.words[-1]["end"]
+        actual_duration = min(video_duration, word_duration)
+        total_frames = int(actual_duration * self.fps)
+
+        print(f"Video duration: {video_duration:.2f}s, Word duration: {word_duration:.2f}s")
+        print(f"Rendering {total_frames} frames...")
 
         ffmpeg = subprocess.Popen(
             [
@@ -268,8 +290,6 @@ class SubtitleVideoRenderer:
             stdin=subprocess.PIPE,
         )
 
-        total_frames = int(self.words[-1]["end"] * self.fps)
-
         current = 0
         block_id = 0
         active_index = -1
@@ -293,7 +313,12 @@ class SubtitleVideoRenderer:
             assert frame_img.nbytes == self.W * self.H * 3
 
             frame_img = np.ascontiguousarray(frame_img)
-            ffmpeg.stdin.write(frame_img.tobytes())
+
+            try:
+                ffmpeg.stdin.write(frame_img.tobytes())
+            except BrokenPipeError:
+                print(f"\nNote: ffmpeg closed stdin at frame {frame}/{total_frames}")
+                break
 
             if frame % (self.fps * 5) == 0:
                 print(frame, "/", total_frames)
