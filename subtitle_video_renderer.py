@@ -206,10 +206,20 @@ class SubtitleVideoRenderer:
                 ww = widths[i]
 
                 if idx == active_index:
+                    # Draw highlight background
                     draw.rounded_rectangle(
                         (x - 10, y - 10, x + ww + 10, y + self.font_size + 10),
                         radius=18,
                         fill=(120, 0, 255, 220),
+                    )
+                    # Redraw text on top of highlight
+                    draw.text(
+                        (x, y),
+                        w["word"],
+                        font=self.font,
+                        fill=(255, 255, 255, 255),
+                        stroke_width=3,
+                        stroke_fill=(0, 0, 0, 255),
                     )
 
                 x += ww + 18
