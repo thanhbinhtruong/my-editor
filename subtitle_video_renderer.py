@@ -125,7 +125,7 @@ class SubtitleVideoRenderer:
 
         # build positions
         layout = []
-        y = self.H - 300
+        y = self.H - 900  # tăng lên = cao hơn (350-450 tùy ý)
 
         for line in lines:
             widths = []
