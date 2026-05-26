@@ -175,7 +175,8 @@ class SubtitleVideoRenderer:
                 x += ww + 18
                 global_idx += 1
 
-        self.base_cache[block_id] = np.array(img.convert("RGB"))
+        # Keep RGBA for transparency overlay
+        self.base_cache[block_id] = np.array(img)
 
     # ─────────────────────────────
     # BUILD ALL BASE FRAMES
@@ -214,7 +215,8 @@ class SubtitleVideoRenderer:
                 x += ww + 18
                 idx += 1
 
-        return np.array(img.convert("RGB"))
+        # Keep RGBA for transparency
+        return np.array(img)
 
     # ─────────────────────────────
     # BUILD EVENTS
@@ -268,7 +270,7 @@ class SubtitleVideoRenderer:
                 "-f",
                 "rawvideo",
                 "-pix_fmt",
-                "rgb24",
+                "rgba",  # Use RGBA for transparency
                 "-s",
                 f"{self.W}x{self.H}",
                 "-r",
@@ -278,7 +280,7 @@ class SubtitleVideoRenderer:
                 "-i",
                 self.input_video,
                 "-filter_complex",
-                "[1:v][0:v]overlay=0:0",
+                "[1:v][0:v]overlay=0:0",  # overlay respects alpha channel
                 "-c:v",
                 "libx264",
                 "-pix_fmt",
@@ -294,7 +296,7 @@ class SubtitleVideoRenderer:
         block_id = 0
         active_index = -1
 
-        empty = np.zeros((self.H, self.W, 3), dtype=np.uint8)
+        empty = np.zeros((self.H, self.W, 4), dtype=np.uint8)  # RGBA = 4 channels
 
         for frame in range(total_frames):
             t = frame / self.fps
@@ -308,9 +310,9 @@ class SubtitleVideoRenderer:
             else:
                 frame_img = self.render(block_id, active_index)
 
-            assert frame_img.shape == (self.H, self.W, 3), frame_img.shape
+            assert frame_img.shape == (self.H, self.W, 4), frame_img.shape  # RGBA = 4 channels
             assert frame_img.dtype == np.uint8
-            assert frame_img.nbytes == self.W * self.H * 3
+            assert frame_img.nbytes == self.W * self.H * 4  # 4 bytes per pixel
 
             frame_img = np.ascontiguousarray(frame_img)
 
