@@ -94,6 +94,8 @@ def format_srt_time(seconds: float):
 
 
 all_wavs = []
+total_segments = len(segments)
+
 for i, seg in enumerate(segments):
 
     speaker_name = seg["speaker"]
@@ -106,12 +108,16 @@ for i, seg in enumerate(segments):
 
     key = f"{gender}_{emotion}"
 
-    # random prompt
+    # fallback to neutral if emotion not found
+    if key not in voice_prompts:
+        print(f"[WARNING] {key} not found, using {gender}_neutral")
+        key = f"{gender}_neutral"
+
     selected = random.choice(voice_prompts[key])
 
     prompt = selected["prompt"]
 
-    print(f"[{i}] {speaker_name} -> {selected['file']}")
+    print(f"[{i+1}/{total_segments}] {speaker_name} -> {selected['file']}: \"{text[:50]}{'...' if len(text) > 50 else ''}\"")
 
     wav, sr = model.generate_voice_clone(
         text=text,
