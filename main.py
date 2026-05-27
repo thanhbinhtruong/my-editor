@@ -35,44 +35,6 @@ def merge_intro(intro_video="media/intro_video.mp4", subtitles_video="outputs/su
 
     print(f"Done: {output}")
 
-
-def add_subtitle_to_video(
-    video_path="outputs/lambda_video.mp4",
-    subtitle_path="source/run_20260518_041145/subtitles.srt",
-    output_path="outputs/subtitles_video.mp4",
-):
-    style = (
-        "FontName=Arial,"
-        "FontSize=24,"
-        "PrimaryColour=&HFFFFFF&,"
-        "OutlineColour=&H000000&,"
-        "BorderStyle=1,"
-        "Outline=2,"
-        "Shadow=0,"
-        "Alignment=2,"      # 2 = bottom center
-        "MarginV=120,"       # cách đáy 40px
-        "MarginL=80,"
-        "MarginR=80"
-    )
-
-    cmd = [
-        "ffmpeg",
-        "-y",
-        "-i",
-        video_path,
-        "-vf",
-        f"subtitles={subtitle_path}:force_style='{style}'",
-        "-c:a",
-        "copy",
-        output_path,
-    ]
-
-    subprocess.run(cmd, check=True)
-
-
-
-
-
 #!/usr/bin/env python3
 """
 Tạo video background đen 16:9 với sóng âm từ file audio.
