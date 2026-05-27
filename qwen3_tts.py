@@ -12,7 +12,7 @@ VOICE_DIR = "emotion_voice"
 
 
 model = Qwen3TTSModel.from_pretrained(
-    "Qwen/Qwen3-TTS-12Hz-1.7B-Base",
+    "Qwen/Qwen3-TTS-24kHz-2B-v1",
     device_map="cuda:0",
     dtype=torch.bfloat16,
     attn_implementation="sdpa"
