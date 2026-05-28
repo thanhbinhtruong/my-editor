@@ -99,7 +99,8 @@ total_segments = len(segments)
 for i, seg in enumerate(segments):
 
     speaker_name = seg["speaker"]
-    emotion = seg["emotion"]
+    # emotion = seg["emotion"]
+    emotion = "meme"
     text = seg["text"]
 
     # Tracy -> girl

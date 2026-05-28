@@ -1,1 +1,8 @@
 venv
+*.png
+*.wav
+*.mp4
+*.srt
+*.avi
+*.json
+*.mp3
