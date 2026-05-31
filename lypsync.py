@@ -24,18 +24,20 @@ ZOOM_CENTER_X     = 0.5           # Tâm zoom X (0.5 = giữa hình)
 ZOOM_CENTER_Y     = 0.5           # Tâm zoom Y (0.5 = giữa chiều dọc)
 
 # ─── CẤU HÌNH TILT / NGHIÊNG ─────────────────────────────────────────────────────
-TILT_ENABLED      = True          # Bật/tắt hiệu ứng nghiêng trái/phải
-TILT_MAX_ANGLE    = 45            # Góc nghiêng tối đa (độ, dương = nghiêng phải)
-TILT_SMOOTHNESS   = 0.2           # Độ mượt của tilt (càng nhỏ càng mượt)
+TILT_ENABLED        = True          # Bật/tắt hiệu ứng nghiêng theo amplitude
+TILT_OPEN_THRESHOLD = 0.03         # Ngưỡng để bắt đầu nghiêng (to tiếng)
+TILT_CLOSE_THRESHOLD = 0.02       # Ngưỡng để thẳng lại (nhỏ tiếng - hysteresis)
+TILT_MAX_ANGLE      = 75          # Góc nghiêng tối đa (độ)
+TILT_SMOOTHNESS     = 0.3         # Độ mượt của tilt trigger
+TILT_CYCLE_FRAMES   = 12          # Số frames cho 1 chu kỳ Trái→Phải→Giữa
+TILT_LEFT_PHASE     = 4          # Frames nghiêng trái
+TILT_RIGHT_PHASE    = 4          # Frames nghiêng phải
+TILT_CENTER_PHASE   = 4          # Frames về giữa
 
 # ─── CẤU HÌNH MIRROR / LẬT ẢNH ────────────────────────────────────────────────────
 MIRROR_ENABLED      = True          # Bật/tắt hiệu ứng lật ảnh (flip horizontal)
 MIRROR_HOLD_SECONDS = 1.0           # Giữ trạng thái lật bao lâu (giây)
 MIRROR_INTERVAL     = 2.0          # Khoảng cách giữa các lần lật (giây)
-
-# ─── CẤU HÌNH WOBBLE / LẮC ───────────────────────────────────────────────────────
-WOBBLE_ENABLED    = True          # Bật/tắt hiệu ứng lắc theo nhịp bass
-WOBBLE_STEREO_MODE = True         # True = dùng stereo L/R cho tilt/pan, False = dùng RMS
 
 # ─── CẤU HÌNH LIPSYNC (ĐÓNG/MỞ MIỆNG) ─────────────────────────────────────────────
 MOUTH_MODE        = "blend"       # "switch" = đóng/mở đột ngột, "blend" = mix mượt theo amplitude
@@ -51,8 +53,7 @@ def analyze_audio(audio_path: str, threshold: float = 0.02):
     Phân tích audio và trả về:
     - mouth_blends: list float (0-1, 0=đóng, 1=mở, giá trị giữa = blend)
     - amplitudes: list float (0-1, mức âm lượng cho zoom)
-    - tilt_diff: list float (-1 đến 1, chênh lệch L/R cho tilt, dùng TILT_SMOOTHNESS)
-    - mirror_diff: list float (dummy, không dùng)
+    - tilt_blends: list float (0-1, 0=thẳng, 1=nghiêng max)
 
     Args:
         audio_path: Đường dẫn file audio
@@ -86,11 +87,13 @@ def analyze_audio(audio_path: str, threshold: float = 0.02):
     n_frames = len(audio_mono) // frame_size
 
     raw_amplitudes = []
-    raw_left_right = []  # Chênh lệc trái/phải cho tilt/pan
     raw_mouth_blend = []  # Blend value cho miệng (0-1)
+    raw_tilt_blend = []  # Blend value cho tilt (0-1)
 
     # Biến theo dõi trạng thái miệng (cho hysteresis)
     is_mouth_open = False
+    # Biến theo dõi trạng thái tilt (cho hysteresis)
+    is_tilt_on = False
 
     for i in range(n_frames):
         frame_mono = audio_mono[i * frame_size:(i + 1) * frame_size]
@@ -108,23 +111,22 @@ def analyze_audio(audio_path: str, threshold: float = 0.02):
 
         raw_mouth_blend.append(1.0 if is_mouth_open else 0.0)
 
-        # Tính chênh lệc L/R cho stereo effect
-        if is_stereo and WOBBLE_ENABLED:
-            frame_left = audio_left[i * frame_size:(i + 1) * frame_size]
-            frame_right = audio_right[i * frame_size:(i + 1) * frame_size]
-            energy_left = np.sqrt(np.mean(frame_left ** 2)) if len(frame_left) > 0 else 0
-            energy_right = np.sqrt(np.mean(frame_right ** 2)) if len(frame_right) > 0 else 0
-            # Diff: dương = right mạnh hơn, âm = left mạnh hơn
-            diff = (energy_right - energy_left) if (energy_left + energy_right) > 0 else 0
-            raw_left_right.append(diff)
+        # Xác định trạng thái tilt với hysteresis
+        if is_tilt_on:
+            # Đang nghiêng → cần âm lượng thấp hơn mới thẳng
+            is_tilt_on = energy > TILT_CLOSE_THRESHOLD
         else:
-            raw_left_right.append(0)
+            # Đang thẳng → cần âm lượng cao hơn mới nghiêng
+            is_tilt_on = energy > TILT_OPEN_THRESHOLD
+
+        raw_tilt_blend.append(1.0 if is_tilt_on else 0.0)
+
 
     # Thêm frames cuối nếu còn dư
     if len(raw_mouth_blend) * frame_size < len(audio_mono):
         raw_amplitudes.append(raw_amplitudes[-1] if raw_amplitudes else 0)
-        raw_left_right.append(raw_left_right[-1] if raw_left_right else 0)
         raw_mouth_blend.append(raw_mouth_blend[-1] if raw_mouth_blend else 0)
+        raw_tilt_blend.append(raw_tilt_blend[-1] if raw_tilt_blend else 0)
 
     # Làm mượt amplitudes cho zoom
     amplitudes = []
@@ -134,7 +136,6 @@ def analyze_audio(audio_path: str, threshold: float = 0.02):
         amplitudes.append(smoothed)
         prev_amp = smoothed
 
-    # Làm mượt mouth blend (quan trọng - tránh chớp nháy)
     mouth_blends = []
     prev_blend = 0
     for blend in raw_mouth_blend:
@@ -144,18 +145,17 @@ def analyze_audio(audio_path: str, threshold: float = 0.02):
         mouth_blends.append(clamped)
         prev_blend = smoothed
 
-    # Làm mượt left_right diff riêng cho TILT (dùng TILT_SMOOTHNESS)
-    tilt_diff = []
-    prev_diff = 0
-    for diff in raw_left_right:
-        smoothed = TILT_SMOOTHNESS * prev_diff + (1 - TILT_SMOOTHNESS) * diff
-        tilt_diff.append(smoothed)
-        prev_diff = smoothed
+    # Làm mượt tilt blend (giống mouth)
+    tilt_blends = []
+    prev_blend = 0
+    for blend in raw_tilt_blend:
+        smoothed = TILT_SMOOTHNESS * prev_blend + (1 - TILT_SMOOTHNESS) * blend
+        # Clamp vào [0, 1]
+        clamped = max(0.0, min(1.0, smoothed))
+        tilt_blends.append(clamped)
+        prev_blend = smoothed
 
-    # Mirror không cần diff nữa (dùng toggle theo thời gian)
-    mirror_diff = [0] * n_frames  # Dummy, không dùng
-
-    return mouth_blends, amplitudes, tilt_diff, mirror_diff
+    return mouth_blends, amplitudes, tilt_blends
 
 
 def apply_zoom(img, scale, center_x=0.5, center_y=0.5):
@@ -208,7 +208,7 @@ def apply_zoom(img, scale, center_x=0.5, center_y=0.5):
 
 def apply_tilt(img, angle):
     """
-    Nghiêng ảnh theo góc (độ)
+    Nghiêng ảnh theo góc (độ) - xoay quanh bottom center (chân ảnh)
     - angle > 0: nghiêng phải (clockwise)
     - angle < 0: nghiêng trái (counter-clockwise)
     """
@@ -217,23 +217,32 @@ def apply_tilt(img, angle):
 
     w, h = img.size
 
-    # Tính size mới để rotate không bị crop
+    # Tính size mới để rotate không bị crop (xoay quanh bottom center)
     angle_rad = abs(angle) * np.pi / 180
-    new_w = int(w * np.cos(angle_rad) + h * np.sin(angle_rad)) + 10
-    new_h = int(h * np.cos(angle_rad) + w * np.sin(angle_rad)) + 10
+    # Chiều cao tăng vì top của ảnh sẽ di chuyển khi nghiêng
+    new_h = int(h + w * np.sin(angle_rad)) + 20
+    new_w = w  # Chiều ngang giữ nguyên
 
     # Tạo canvas lớn hơn
     canvas = Image.new("RGB", (new_w, new_h), (0, 0, 0))
-    offset_x = (new_w - w) // 2
-    offset_y = (new_h - h) // 2
+
+    # Paste ảnh với bottom center nằm ở giữa canvas bottom
+    # bottom center của ảnh = ((w/2), h)
+    # bottom center của canvas = ((new_w/2), new_h)
+    offset_x = (new_w - w) // 2  # Center ngang
+    offset_y = new_h - h  # Đặt bottom của ảnh sát bottom của canvas
     canvas.paste(img, (offset_x, offset_y))
 
-    # Rotate
-    rotated = canvas.rotate(angle, resample=Image.Resampling.BICUBIC, expand=False)
+    # Rotate quanh center của canvas (bottom center của ảnh)
+    # Center của canvas = (new_w/2, new_h)
+    center_x = new_w // 2
+    center_y = new_h
 
-    # Crop về kích thước gốc (center)
+    rotated = canvas.rotate(angle, resample=Image.Resampling.BICUBIC, expand=False, center=(center_x, center_y))
+
+    # Crop về kích thước gốc, giữ bottom center cố định
     crop_x1 = (new_w - w) // 2
-    crop_y1 = (new_h - h) // 2
+    crop_y1 = new_h - h  # Crop từ bottom lên
     crop_x2 = crop_x1 + w
     crop_y2 = crop_y1 + h
 
@@ -285,7 +294,7 @@ def create_lipsync_video(
     Blend mượt giữa đóng/mở miệng (không chớp nháy)
     """
     print(f"🎵 Phân tích audio: {audio_path}")
-    mouth_blends, amplitudes, tilt_diff, mirror_diff = analyze_audio(audio_path, threshold)
+    mouth_blends, amplitudes, tilt_blends = analyze_audio(audio_path, threshold)
 
     # Tính % frames mở miệng (blend > 0.5)
     open_frames = sum(1 for b in mouth_blends if b > 0.5)
@@ -296,8 +305,7 @@ def create_lipsync_video(
         print(f"   📊 Zoom: amplitude max={max_amp:.4f} (scale: {ZOOM_MIN_SCALE} → {ZOOM_MAX_SCALE})")
 
     if TILT_ENABLED:
-        max_tilt_diff = max(abs(d) for d in tilt_diff) if tilt_diff else 1
-        print(f"   ↻️  Tilt: L/R diff max={max_tilt_diff:.4f} (angle: ±{TILT_MAX_ANGLE}°)")
+        print(f"   ↻️  Tilt: theo amplitude (threshold: {TILT_CLOSE_THRESHOLD} → {TILT_OPEN_THRESHOLD})")
 
     if MIRROR_ENABLED:
         print(f"   🔀 Mirror: toggle mỗi {MIRROR_INTERVAL}s, giữ {MIRROR_HOLD_SECONDS}s")
@@ -334,10 +342,6 @@ def create_lipsync_video(
     if max_amp == 0:
         max_amp = 1
 
-    max_tilt_diff = max(abs(d) for d in tilt_diff) if tilt_diff else 1
-    if max_tilt_diff == 0:
-        max_tilt_diff = 1
-
     print(f"🖼️  Tạo {len(mouth_blends)} frames...")
 
     # State cho mirror toggle
@@ -345,6 +349,11 @@ def create_lipsync_video(
     mirror_flip_time = -MIRROR_INTERVAL  # Thời điểm lần lật gần nhất
     mirror_hold_frames = int(MIRROR_HOLD_SECONDS * fps)  # Số frames giữ trạng thái
     mirror_interval_frames = int(MIRROR_INTERVAL * fps)  # Số frames giữa các lần lật
+
+    # State cho TILT rocking motion (Trái → Phải → Giữa)
+    tilt_state = "idle"  # idle, left, right, center
+    tilt_frame_count = 0  # Frame counter trong current state
+    tilt_angle = 0  # Góc hiện tại
 
     for i, blend_factor in enumerate(mouth_blends):
         # ── Blend 2 hình miệng đóng/mở MỜT (không chớp nháy) ───────────────────────
@@ -356,12 +365,43 @@ def create_lipsync_video(
             scale = ZOOM_MIN_SCALE + (ZOOM_MAX_SCALE - ZOOM_MIN_SCALE) * norm_amp
             img = apply_zoom(img, scale, ZOOM_CENTER_X, ZOOM_CENTER_Y)
 
-        # ── Áp dụng TILT (nghiêng) theo chênh lệch L/R ────────────────────────────
+        # ── Áp dụng TILT (rocking motion: Trái → Phải → Giữa) ───────────────────
         if TILT_ENABLED:
-            norm_diff = tilt_diff[i] / max_tilt_diff
-            # norm_diff: -1 (left mạnh) → +1 (right mạnh)
-            angle = norm_diff * TILT_MAX_ANGLE
-            img = apply_tilt(img, angle)
+            should_tilt = tilt_blends[i] > 0.5  # Có nên nghiêng không?
+
+            if tilt_state == "idle":
+                if should_tilt:
+                    # Bắt đầu chu kỳ nghiêng
+                    tilt_state = "left"
+                    tilt_frame_count = 0
+                tilt_angle = 0
+            elif tilt_state == "left":
+                # Phase 1: Nghiêng trái (-MAX_ANGLE)
+                progress = tilt_frame_count / TILT_LEFT_PHASE
+                tilt_angle = -TILT_MAX_ANGLE * progress
+                tilt_frame_count += 1
+                if tilt_frame_count >= TILT_LEFT_PHASE:
+                    tilt_state = "right"
+                    tilt_frame_count = 0
+            elif tilt_state == "right":
+                # Phase 2: Nghiêng phải (+MAX_ANGLE)
+                progress = tilt_frame_count / TILT_RIGHT_PHASE
+                # Interpolate từ -MAX sang +MAX
+                tilt_angle = -TILT_MAX_ANGLE + 2 * TILT_MAX_ANGLE * progress
+                tilt_frame_count += 1
+                if tilt_frame_count >= TILT_RIGHT_PHASE:
+                    tilt_state = "center"
+                    tilt_frame_count = 0
+            elif tilt_state == "center":
+                # Phase 3: Về giữa (0)
+                progress = tilt_frame_count / TILT_CENTER_PHASE
+                tilt_angle = TILT_MAX_ANGLE * (1 - progress)
+                tilt_frame_count += 1
+                if tilt_frame_count >= TILT_CENTER_PHASE:
+                    tilt_state = "idle"
+                    tilt_angle = 0
+
+            img = apply_tilt(img, tilt_angle)
 
         # ── Áp dụng MIRROR (toggle giữ 1 giây) ───────────────────────────────────
         if MIRROR_ENABLED:
