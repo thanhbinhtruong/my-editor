@@ -28,11 +28,6 @@ TILT_ENABLED      = True          # Bật/tắt hiệu ứng nghiêng trái/ph�
 TILT_MAX_ANGLE    = 45            # Góc nghiêng tối đa (độ, dương = nghiêng phải)
 TILT_SMOOTHNESS   = 0.2           # Độ mượt của tilt (càng nhỏ càng mượt)
 
-# ─── CẤU HÌNH PAN / DỊCH CHUYỂN TRÁI PHẢI ───────────────────────────────────────
-PAN_ENABLED       = False         # Bật/tắt hiệu ứng dịch trái/phải
-PAN_MAX_OFFSET    = 30            # Dịch chuyển tối đa (pixel)
-PAN_SMOOTHNESS    = 0.15          # Độ mượt của pan (càng nhỏ càng mượt)
-
 # ─── CẤU HÌNH MIRROR / LẬT ẢNH ────────────────────────────────────────────────────
 MIRROR_ENABLED      = True          # Bật/tắt hiệu ứng lật ảnh (flip horizontal)
 MIRROR_HOLD_SECONDS = 1.0           # Giữ trạng thái lật bao lâu (giây)
@@ -57,8 +52,7 @@ def analyze_audio(audio_path: str, threshold: float = 0.02):
     - mouth_blends: list float (0-1, 0=đóng, 1=mở, giá trị giữa = blend)
     - amplitudes: list float (0-1, mức âm lượng cho zoom)
     - tilt_diff: list float (-1 đến 1, chênh lệch L/R cho tilt, dùng TILT_SMOOTHNESS)
-    - pan_diff: list float (-1 đến 1, chênh lệch L/R cho pan, dùng PAN_SMOOTHNESS)
-    - mirror_diff: list float (-1 đến 1, chênh lệch L/R cho mirror, dùng MIRROR_SMOOTHNESS)
+    - mirror_diff: list float (dummy, không dùng)
 
     Args:
         audio_path: Đường dẫn file audio
@@ -158,18 +152,10 @@ def analyze_audio(audio_path: str, threshold: float = 0.02):
         tilt_diff.append(smoothed)
         prev_diff = smoothed
 
-    # Làm mượt left_right diff riêng cho PAN (dùng PAN_SMOOTHNESS)
-    pan_diff = []
-    prev_diff = 0
-    for diff in raw_left_right:
-        smoothed = PAN_SMOOTHNESS * prev_diff + (1 - PAN_SMOOTHNESS) * diff
-        pan_diff.append(smoothed)
-        prev_diff = smoothed
-
     # Mirror không cần diff nữa (dùng toggle theo thời gian)
     mirror_diff = [0] * n_frames  # Dummy, không dùng
 
-    return mouth_blends, amplitudes, tilt_diff, pan_diff, mirror_diff
+    return mouth_blends, amplitudes, tilt_diff, mirror_diff
 
 
 def apply_zoom(img, scale, center_x=0.5, center_y=0.5):
@@ -254,37 +240,6 @@ def apply_tilt(img, angle):
     return rotated.crop((crop_x1, crop_y1, crop_x2, crop_y2))
 
 
-def apply_pan(img, offset_x, offset_y=0):
-    """
-    Dịch chuyển ảnh (pan) theo offset pixel
-    - offset_x > 0: dịch phải
-    - offset_x < 0: dịch trái
-    """
-    if not PAN_ENABLED or abs(offset_x) < 1:
-        return img
-
-    w, h = img.size
-
-    # Tạo canvas lớn hơn với màu đen
-    pad = int(abs(offset_x)) + 5
-    new_w = w + 2 * pad
-    new_h = h + 2 * pad
-    canvas = Image.new("RGB", (new_w, new_h), (0, 0, 0))
-
-    # Paste ảnh vào canvas với offset
-    paste_x = pad - int(offset_x)
-    paste_y = pad - int(offset_y)
-    canvas.paste(img, (paste_x, paste_y))
-
-    # Crop về kích thước gốc
-    crop_x1 = pad
-    crop_y1 = pad
-    crop_x2 = crop_x1 + w
-    crop_y2 = crop_y1 + h
-
-    return canvas.crop((crop_x1, crop_y1, crop_x2, crop_y2))
-
-
 def apply_mirror(img, flip_factor):
     """
     Lật ảnh (flip horizontal) - không dùng nữa, giữ để compat
@@ -330,7 +285,7 @@ def create_lipsync_video(
     Blend mượt giữa đóng/mở miệng (không chớp nháy)
     """
     print(f"🎵 Phân tích audio: {audio_path}")
-    mouth_blends, amplitudes, tilt_diff, pan_diff, mirror_diff = analyze_audio(audio_path, threshold)
+    mouth_blends, amplitudes, tilt_diff, mirror_diff = analyze_audio(audio_path, threshold)
 
     # Tính % frames mở miệng (blend > 0.5)
     open_frames = sum(1 for b in mouth_blends if b > 0.5)
@@ -343,10 +298,6 @@ def create_lipsync_video(
     if TILT_ENABLED:
         max_tilt_diff = max(abs(d) for d in tilt_diff) if tilt_diff else 1
         print(f"   ↻️  Tilt: L/R diff max={max_tilt_diff:.4f} (angle: ±{TILT_MAX_ANGLE}°)")
-
-    if PAN_ENABLED:
-        max_pan_diff = max(abs(d) for d in pan_diff) if pan_diff else 1
-        print(f"   ↔️  Pan: L/R diff max={max_pan_diff:.4f} (offset: ±{PAN_MAX_OFFSET}px)")
 
     if MIRROR_ENABLED:
         print(f"   🔀 Mirror: toggle mỗi {MIRROR_INTERVAL}s, giữ {MIRROR_HOLD_SECONDS}s")
@@ -387,14 +338,6 @@ def create_lipsync_video(
     if max_tilt_diff == 0:
         max_tilt_diff = 1
 
-    max_pan_diff = max(abs(d) for d in pan_diff) if pan_diff else 1
-    if max_pan_diff == 0:
-        max_pan_diff = 1
-
-    max_mirror_diff = max(abs(d) for d in mirror_diff) if mirror_diff else 1
-    if max_mirror_diff == 0:
-        max_mirror_diff = 1
-
     print(f"🖼️  Tạo {len(mouth_blends)} frames...")
 
     # State cho mirror toggle
@@ -419,13 +362,6 @@ def create_lipsync_video(
             # norm_diff: -1 (left mạnh) → +1 (right mạnh)
             angle = norm_diff * TILT_MAX_ANGLE
             img = apply_tilt(img, angle)
-
-        # ── Áp dụng PAN (dịch chuyển) theo chênh lệch L/R ───────────────────────────
-        if PAN_ENABLED:
-            norm_diff = pan_diff[i] / max_pan_diff
-            # norm_diff: -1 (left) → +1 (right)
-            offset_x = norm_diff * PAN_MAX_OFFSET
-            img = apply_pan(img, offset_x)
 
         # ── Áp dụng MIRROR (toggle giữ 1 giây) ───────────────────────────────────
         if MIRROR_ENABLED:
