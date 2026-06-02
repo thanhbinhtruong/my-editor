@@ -79,6 +79,7 @@ output_dir.mkdir(parents=True, exist_ok=True)
 
 
 srt_lines = []
+srt_with_speaker_lines = []
 current_time = 0.0
 
 def format_srt_time(seconds: float):
@@ -146,6 +147,12 @@ for i, seg in enumerate(segments):
         f"{text}\n"
     )
 
+    srt_with_speaker_lines.append(
+        f"{i + 1}\n"
+        f"{format_srt_time(start_time)} --> {format_srt_time(end_time)}\n"
+        f"{speaker_name}: {text}\n"
+    )
+
     # update current time
     current_time = end_time + 0.3
 
@@ -173,5 +180,13 @@ with open(srt_path, "w", encoding="utf-8") as f:
     f.write("\n".join(srt_lines))
 
 print(f"SRT saved: {srt_path}")
+
+# Save subtitles with speakers
+srt_with_speaker_path = output_dir / "subtitles_with_speakers.srt"
+
+with open(srt_with_speaker_path, "w", encoding="utf-8") as f:
+    f.write("\n".join(srt_with_speaker_lines))
+
+print(f"SRT with speakers saved: {srt_with_speaker_path}")
 
 print(f"Done. Saved to: {output_dir}")
